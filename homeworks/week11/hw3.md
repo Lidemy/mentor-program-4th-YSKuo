@@ -65,7 +65,7 @@ comment = select username from YSKuo_username'), ("Obama", "who am I");
 
 ### Prepared Statement
 ```
-用途：針對 [SQL Injection](https://hackmd.io/7S__zUOYSxGEUmL_qwz57Q?view#SQL-Injection) 的防禦手段 
+用途：針對 SQL Injection 的防禦手段 
 ```
 
 ##### 範例
@@ -133,7 +133,7 @@ document.cookie
 ### htmlspecialchars
 
 ```
-用途：將 HTML 認成特殊字元的內容轉換成一般字串，以防範他人使用 [XSS](https://hackmd.io/7S__zUOYSxGEUmL_qwz57Q?view#XSS)
+用途：將 HTML 認成特殊字元的內容轉換成一般字串，以防範他人使用 XSS
 語法：`htmlspecialchars($str, ENT_QUOTES, 'utf-8');`
 ```
 
@@ -142,11 +142,12 @@ document.cookie
 ```
 
 ##### 參考
-[PHP - htmlspecialchars](https://www.php.net/manual/en/function.htmlspecialchars.php)
+- [PHP - htmlspecialchars](https://www.php.net/manual/en/function.htmlspecialchars.php)
 
 ## 請說明 CSRF 的攻擊原理以及防範方法
 
-### 原理：利用瀏覽器的特性可使發送 request 到某 domain 時把相關的 cookie 給戴上，進而造成在不同的 domain 可偽造出使用者本人發出的 request 的效果。
+### 原理
+利用瀏覽器的特性可使發送 request 到某 domain 時把相關的 cookie 給戴上，進而造成在不同的 domain 可偽造出使用者本人發出的 request 的效果。
 
 ##### 範例
 ```
@@ -225,75 +226,3 @@ Set-Cookie: session_id=ewfewjf23o1; SameSite
 ```
 - 預設為 `Lax` 模式，讓 <a>, <link>, <form method="GET"> 等 tag 都會帶上 cookie，但使用 POST, PUT, DELETE 等方法的 <form> 都不會帶上 cookie
 - 缺點：須考慮瀏覽器支援度
-
-
-
-
-
-
-
-
-
-
-
-## HW1
-http://mentor-program.co/mtr04group1/YSKuo/week11/hw1/index.php
-### Admin 帳密
-- username: Admin
-- password: A123A
-
-### 心得及問題
-- 做完全部功能又修 bug 已無精力細調 RWD，決定先放棄這部分
-- 原本還打算加入可以修改密碼還有放上頭貼的功能，一樣決定先放棄這部分，不然沒完沒了
-- css 是套用這套 [Skeuos CSS](https://drasite.com/skeuos-css)，不是完全自己刻的啦
-
-
-- table, colume 編碼 utf-8 問題
-
-
-- comment 的 content 不會換行，不知道哪裡出問題了
-  - 我把 css 撤掉也一樣沒換行
-  - 照課程影片刻出來的留言板載入同個資料庫（用同個 `conn.php`），卻有換行
-  - escape 沒問題
-- 自覺判斷式寫得爛，例如 `index.php` 中判斷顯示 delete 鈕出現的式子，`$auth['delete_all_comments']` 在內外層都寫上了，不知道怎麼修改比較好呢？
-```
-<!-- "delete comment" button -->
-<?php if (
-  $username === $row['username'] ||
-  $auth['delete_all_comments']
-) { ?> 
-  <?php if (
-    $auth['delete_self_comments']|| 
-    $auth['delete_all_comments']
-  ) {} ?>
-```
-
-### 挑戰題的想法
-發現自己的作法和參考範例不一樣，像是建立 role 的時候，類型我不是選擇 ENUM
-
-// 4. `delete_role` 沒有做 csrfToken 來防護，因為 `delete_role` 是用 `<a>` tag 來做而且因為排版方便而放在另一個 `<form>` 裡頭，目前想不到這樣怎麼做 csrf 防護。
-
-
-## HW2
-http://mentor-program.co/mtr04group1/YSKuo/week11/hw2/static/index.php
-### Admin 帳密
-- username: Admin
-- password: A123A
-
-### 心得及問題
-- 直接套用 example 切好的版
-- 沒做 RWD
-- 原本有在 `handle_delete_article` 放 csrfToken，但怎麼樣就是刪不了文章，於是把它註解掉了
-
-### 挑戰題的想法
-hw1 花太多時間了，想先進入下一週所以只做最基本的功能，不過看挑戰題的敘述有些想法，再麻煩助教/老師看看有無問題
-- 實作分類功能
-  - 針對這個功能，我的作法會和 hw1 的設定角色一樣
-- 實作 view more 功能
-  1. 這個 view more 功能是指按下 `view more` 按鈕後，文章會從原本被固定長度的狀態延展成顯示全文嗎？
-  2. 針對第 1 點，如果是的話，那我會一開始就設定文章欄位的 height（即限制欄位高度），然後用 `overflow: hidden` 把文章隱藏
-  3. 監聽`view more` 的 click，然後 click 之後把文章欄位的 height 限制取消掉
-- 實作分頁機制
-  - 這個有做
-
-
