@@ -1,7 +1,7 @@
 <?php
   require_once('conn.php');
 
-  if (empty($_POST['list_id'])) {
+  if (empty($_POST['listId'])) {
     $json = array(
       "ok" => false,
       "msg" => "Please input List ID",
@@ -12,7 +12,7 @@
     die();
   }
 
-  $list_id = $_POST['list_id'];
+  $list_id = $_POST['listId'];
 
   $sql = 'SELECT * FROM YSKuo_lists WHERE list_id=?';
   $stmt = $conn->prepare($sql);
@@ -34,7 +34,7 @@
   if ($row_cnt == 0) {
     $json = array(
       "ok" => false,
-      "msg" => "cannot found any related information.",
+      "msg" => "list id does not exist in database.",
       "errCode" => 2
     );
     $response = json_encode($json);

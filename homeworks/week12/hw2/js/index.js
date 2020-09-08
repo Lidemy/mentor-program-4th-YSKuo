@@ -1,6 +1,7 @@
 // escape 把那些會被瀏覽器判別為標籤的字處理成純字串
 
 /* eslint no-undef: 0 */
+/* eslint no-shadow: 0 */
 
 /* eslint-disable */
   function escape(toOutput){
@@ -61,12 +62,12 @@ function refreshStatus() {
   }
 }
 
-function getTodosFromListId(inputListId) {
+function getTodosFromListId(listId) {
   $('.todos').html('');
   $.ajax({
     type: 'POST',
     url: 'http://localhost:8080/YSK/be101/board/week12/hw2/api_todos.php',
-    data: { inputListId },
+    data: { listId },
   }).done((data) => {
     let ModalHtml;
     if (!data.ok) {
@@ -74,7 +75,7 @@ function getTodosFromListId(inputListId) {
       if (data.errCode === 1) {
         ModalHtml = 'Please input List ID';
       } else if (data.errCode === 2) {
-        ModalHtml = 'We cannot found any related information of the list ID.';
+        ModalHtml = 'The list ID does not exist in our database.';
       }
       $('#list-id-modal .modal-body').html(ModalHtml);
       return;
@@ -95,13 +96,13 @@ function getTodosFromListId(inputListId) {
   });
 }
 
-function todosDataArray(inputListId) {
+function todosDataArray(listId) {
   const todosData = [];
 
   for (const todo of $('.todo')) {
     const todoData = {};
     todoData.todo_id = $(todo).children('input[name=todo_id]').val();
-    todoData.list_id = inputListId;
+    todoData.list_id = listId;
     todoData.is_completed = $(todo).children('.todo__input').hasClass('todo__input-completed') ? 1 : 0;
     todoData.is_deleted = $(todo).css('display') === 'none' ? 1 : 0;
     todoData.content = $(todo).children('.todo__input').val();
@@ -115,14 +116,24 @@ function addTodosData(todosData) {
   $.ajax({
     type: 'POST',
     url: 'http://localhost:8080/YSK/be101/board/week12/hw2/api_edit_todos.php',
-    data: { json },
+    data: { listId, json },
     dataType: 'json',
-  }).done(() => {
+  }).done((data) => {
     getTodosFromListId(listId);
-    const ModalHtml = ` 
-      Your data have been saved successfully!<br>
-      Please remember your list ID is ${listId}.
-    `;
+    let ModalHtml;
+    if (!data.ok) {
+      console.log(data.msg);
+      if (data.errCode === 2) {
+        ModalHtml = 'The list ID does not exist in our database.';
+      } else {
+        ModalHtml = 'Somthing wrong.';
+      }
+    } else {
+      ModalHtml = ` 
+        Your data have been saved successfully!<br>
+        Please remember your list ID is ${listId}.
+      `;
+    }
     $('#save-btn-modal .modal-body').html(ModalHtml);
   }).fail((data) => {
     console.log('fail: ');

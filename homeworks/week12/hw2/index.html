@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo List</title>
+  <title>Bucket List</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -16,11 +16,11 @@
     <div class="collapse navbar-collapse list-id-form" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <span class="save-btn nav-link" data-toggle="modal" data-target="#save-btn">Save This List</span>
+          <span class="save-btn nav-link" data-toggle="modal" data-target="#save-btn-modal">Save This List</span>
         </li>
       </ul>
       <!-- Modal -->
-      <div class="modal fade save-btn-modal" id="save-btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="save-btn-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -42,13 +42,13 @@
       <form class="form-inline">
         <div class="input-group">
           <div class="input-group-prepend">
-            <input type="submit" class="input-group-text list-id-btn" id="basic-addon1" value="@" data-toggle="modal" data-target="#list-id-btn" />
+            <input type="submit" class="input-group-text list-id-btn" id="basic-addon1" value="@" data-toggle="modal" data-target="#list-id-modal" />
           </div>
           <input type="text" class="list-id form-control" placeholder="List ID" aria-label="List ID" value="">
         </div>
       </form>
       <!-- Modal -->
-      <div class="modal fade" id="list-id-btn" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="list-id-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
