@@ -27,7 +27,7 @@ const App = () => {
     Array(19).fill(Array(19).fill({ value: "", step: null })),
   ]);
   const [stepNumber, setStepNumber] = useState(0);
-  const [bIsNext, setBIsNext] = useState(true);
+  const [blackIsNext, setBlackIsNext] = useState(true);
   const [showStep, setShowStep] = useState(false);
 
   const currentBoard = history[stepNumber];
@@ -37,7 +37,7 @@ const App = () => {
   if (winner) {
     status = "Winner: " + winner;
   } else {
-    status = `Next player: ${bIsNext ? "Black" : "White"}`;
+    status = `Next player: ${blackIsNext ? "Black" : "White"}`;
   }
 
   const moves = history.map((step, move) => {
@@ -51,7 +51,7 @@ const App = () => {
 
   const jumpTo = (step) => {
     setStepNumber(step);
-    setBIsNext(step % 2 === 0);
+    setBlackIsNext(step % 2 === 0);
   };
 
   const handleClickSquare = (row, column) => {
@@ -62,12 +62,12 @@ const App = () => {
       return;
     }
     newBoard[row][column] = {
-      value: bIsNext ? "Black" : "White",
+      value: blackIsNext ? "Black" : "White",
       stepRecord: stepNumber + 1,
     };
     setHistory([...newHistory, newBoard]);
     setStepNumber(stepNumber + 1);
-    setBIsNext(!bIsNext);
+    setBlackIsNext(!blackIsNext);
   };
 
   const handleShowStepToggle = () => {

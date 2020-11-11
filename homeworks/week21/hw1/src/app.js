@@ -11,6 +11,7 @@ export default class App extends Component {
     this.state = {
       localTodos: [],
       filter: "all",
+      content: "",
     };
   }
 
@@ -35,9 +36,14 @@ export default class App extends Component {
     localStorage.setItem("localTodos", json);
   }
 
+  handleInputOnChange = (e) => {
+    this.setState({ content: e.target.value });
+  };
+
   handleAddTodo = (e) => {
     e.preventDefault();
-    const content = e.target.elements.content.value.trim();
+    const content = this.state.content.trim();
+
     // input 有內容的話就 setState
     if (content) {
       const todo = {
@@ -49,8 +55,8 @@ export default class App extends Component {
         localTodos: [todo, ...this.state.localTodos],
       });
     }
-    // 新增 todo 到 state 完，再把 input 清空
-    e.target.elements.content.value = "";
+    // 新增 todo 到 state 完，再把 content 清空
+    this.setState({ content: "" });
   };
 
   handleClearCompletedTodos = () => {
@@ -60,24 +66,20 @@ export default class App extends Component {
     }));
   };
 
-  handleClearTodo = (e) => {
-    // value 是要刪除的 todoId
-    const todoId = e.target.value;
-
+  handleClearTodo = (id) => {
     // 用 filter 留下和要刪除的 todoId 不符合的 todo 們
     this.setState((prevState) => ({
       localTodos: prevState.localTodos.filter(
-        (todo) => todo.id !== parseInt(todoId, 10)
+        (todo) => todo.id !== parseInt(id, 10)
       ),
     }));
   };
 
-  handleCheckboxChange = (e) => {
-    const todoId = e.target.value;
+  handleCheckboxChange = (id) => {
     this.setState((prevState) => ({
       localTodos: prevState.localTodos.map((todo) => {
         // 如果 id 吻合就改變 isCompleted 狀態
-        if (todo.id === parseInt(todoId, 10)) {
+        if (todo.id === parseInt(id, 10)) {
           return {
             ...todo,
             isCompleted: !todo.isCompleted,
@@ -92,28 +94,16 @@ export default class App extends Component {
   handleCompleteAllToggle = () => {
     // 如果 localTodos 的 todo 數目和標記 completed 的 todo 數目一樣
     // 就把所有的 todo 標記未完成，反之就把所有的 todo 標記完成
-    if (
-      this.state.localTodos.length ===
-      this.state.localTodos.filter((todo) => todo.isCompleted).length
-    ) {
-      this.setState((prevState) => ({
-        localTodos: prevState.localTodos.map((todo) => {
-          return {
-            ...todo,
-            isCompleted: false,
-          };
-        }),
-      }));
-    } else {
-      this.setState((prevState) => ({
-        localTodos: prevState.localTodos.map((todo) => {
-          return {
-            ...todo,
-            isCompleted: true,
-          };
-        }),
-      }));
-    }
+
+    const allCompleted = this.state.localTodos.every(
+      (todo) => todo.isCompleted
+    );
+    this.setState((prevState) => ({
+      localTodos: prevState.localTodos.map((todo) => ({
+        ...todo,
+        isCompleted: !allCompleted,
+      })),
+    }));
   };
 
   handdlePickFilter = (e) => {
@@ -123,12 +113,12 @@ export default class App extends Component {
   };
 
   handleEditTodo = (e) => {
-    const todoId = e.target.id;
+    const todoId = parseInt(e.target.id, 10);
     const content = e.target.value;
     this.setState((prevState) => ({
       localTodos: prevState.localTodos.map((todo) => {
         // id 吻合就放上新的 content
-        if (todo.id === parseInt(todoId, 10)) {
+        if (todo.id === todoId) {
           return {
             ...todo,
             content: content,
@@ -141,11 +131,15 @@ export default class App extends Component {
   };
 
   render() {
-    const {localTodos, filter } = this.state;
+    const { localTodos, filter, content } = this.state;
     return (
-      <div className="App">
+      <>
         <Header />
-        <TodoInput handleAddTodo={this.handleAddTodo} />
+        <TodoInput
+          content={content}
+          handleInputOnChange={this.handleInputOnChange}
+          handleAddTodo={this.handleAddTodo}
+        />
         <TodosInfo
           localTodos={localTodos}
           filter={filter}
@@ -156,7 +150,7 @@ export default class App extends Component {
           handleCompleteAllToggle={this.handleCompleteAllToggle}
           handleEditTodo={this.handleEditTodo}
         />
-      </div>
+      </>
     );
   }
 }

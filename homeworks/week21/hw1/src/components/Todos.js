@@ -2,17 +2,13 @@ import React from 'react';
 import Todo from './Todo';
 
 const Todos = ({ filter, localTodos, handleCheckboxChange, handleClearTodo, handleEditTodo }) => {
-
   return (
     <section className="todos mt-4">
     { 
       localTodos
         .filter(todo => {
-          if (filter === 'active') {
-            return !todo.isCompleted;
-          } else if (filter === 'completed') {
-            return todo.isCompleted;
-          } else { return true }
+          if (filter === 'all') return true
+          return filter === 'completed' ? todo.isCompleted : !todo.isCompleted
         })
         .map(todo => (
           <Todo

@@ -1,36 +1,32 @@
 import React from 'react';
+import classNames from 'classnames';
 
 const Todo = ({ id, content, isCompleted, handleCheckboxChange, handleClearTodo, handleEditTodo }) => {
-  const todoIsCompleted = (isCompleted) => isCompleted ? 'todo-is-completed' : 'todo-is-uncompleted';
-  const inputIsCompleted = (isCompleted) => isCompleted ? 'todo__input-completed' : '';
-  
+  const inputIsCompleted = classNames('todo__input form-control', {'todo__input-completed': isCompleted});
+
   return (
-    <div className={`todo input-group mb-1 ${todoIsCompleted(isCompleted)}`}>
+    <div className="todo input-group mb-1">
       <div className="input-group-prepend">
         <div className="input-group-text">
           <input 
             type="checkbox" 
-            aria-label="Checkbox for following text input" 
             checked={isCompleted}
-            onChange={handleCheckboxChange}
-            value={id}
+            onChange={() => handleCheckboxChange(id)}
           />
         </div>
       </div>
       <input 
         type="text" 
-        className={`todo__input form-control ${inputIsCompleted(isCompleted)}`} 
-        aria-label="Text input with checkbox" 
+        className={inputIsCompleted} 
         value={content}
         id={id}
         onChange={handleEditTodo}
       />
 
       <button 
-        value={id}
         type="button" 
         className="clear-btn btn btn-outline-danger" 
-        onClick={handleClearTodo}
+        onClick={() => handleClearTodo(id)}
       >
         Clear
       </button>
