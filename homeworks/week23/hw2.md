@@ -10,12 +10,8 @@ Redux 幫助我們管理 state。
 app 的 state 會存在 store 裡面，而所有對 state 的操作必須通過 dispatch，這個 dispatch 會接受一個參數 action，用來描述我們想要怎麼改變 state。
 dispatch 會接受 action 後會發送給 reducer，而 reducer 是處理 state 的 function，它會接受當前的 state 和 action，最後傳出一個經過改變的 state。
 
-<<<<<<< HEAD
 動圖參考
 ![](https://redux.js.org/assets/images/ReduxDataFlowDiagram-49fa8c3968371d9ef6f2a1486bd40a26.gif)
-=======
-## 該怎麼把 React 跟 Redux 串起來？
->>>>>>> master
 
 ## 該怎麼把 React 跟 Redux 串起來？
 
