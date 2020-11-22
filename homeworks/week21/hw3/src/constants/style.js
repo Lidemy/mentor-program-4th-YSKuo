@@ -1,0 +1,1 @@
+export const MEDIA_QUERY_MD = '@media (max-width: 768px)';
